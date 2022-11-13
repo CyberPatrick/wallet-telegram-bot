@@ -1,5 +1,5 @@
 export interface defaultResponse {
-    statusCode: number;
+    statusCode: number | string;
     message: string;
 }
 export interface defaultWithAnswer extends defaultResponse{
@@ -19,9 +19,9 @@ export interface requisiteTypesResponse extends defaultResponse {
     }]
 }
 export interface offerResponse extends defaultResponse {
-    trades: Trade[]
+    trades: Offer[]
 }
-export interface Trade {
+export interface Offer {
     traderChatId: number,
     value: number;
     price: number;
@@ -53,4 +53,15 @@ export interface purchase {
 }
 export interface purchaseResponse extends defaultResponse {
     trades: purchase[];
+}
+export interface requisitesResponse extends defaultResponse {
+    requisites: Requisite[]
+
+}
+export interface Requisite {
+    id: number;
+    organisation: string;
+    currency: string;
+    price: number;
+    requisite: string;
 }

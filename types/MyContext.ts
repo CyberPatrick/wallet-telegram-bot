@@ -15,5 +15,14 @@ export interface sessionContext {
     }];
     tradeId?: number;
     traderChatId?: number;
+    trades?: Trade[];
+    requisiteId?: number;
+    requisite?: string;
 }
 export interface mySceneSession extends Scenes.SceneSessionData {}
+export interface Trade {
+    traderChatId?: number;
+    buyerChatId?: number;
+    value?: number;
+    tradeId?: number;
+}

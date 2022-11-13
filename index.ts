@@ -11,7 +11,13 @@ import startBot from "./utils/startBot";
 import {myContext} from "./types/MyContext";
 
 const bot = new Telegraf<myContext>(config.get("Bot.token"));
-const stage = new Scenes.Stage([ScenesList.getVerificationScene()])
+const stage = new Scenes.Stage<Scenes.SceneContext>([
+    ScenesList.getVerificationScene(), ScenesList.getMainScene(),
+    ScenesList.getScreenShotScene(), ScenesList.getBuyScene(),
+    ScenesList.getSellScene(), ScenesList.getSendToSaleScene(),
+    ScenesList.getRequisitesScene(), ScenesList.getAddRequisiteScene(),
+    ScenesList.getChangeRequisiteScene()
+])
 
 const localSession = new LocalSession({
     database: "sessions.json",

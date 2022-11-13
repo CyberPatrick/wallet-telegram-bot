@@ -5,7 +5,7 @@ import {
     balanceResponse,
     defaultResponse,
     defaultWithAnswer,
-    offerResponse, purchaseResponse,
+    offerResponse, purchaseResponse, requisitesResponse,
     requisiteTypesResponse, tradesResponse,
 } from "../types/response";
 
@@ -123,6 +123,72 @@ export default class API {
             method: "POST",
             body: JSON.stringify({
                 chatId,
+            })
+        })
+        return await response.json();
+    }
+
+    static async confirmTrade(chatId: number, tradeId: number): Promise<defaultResponse> {
+        let response = await fetch(request_url + "trade/confirm", {
+            method: "PUT",
+            body: JSON.stringify({
+                chatId, tradeId,
+            })
+        })
+        return await response.json();
+    }
+
+    static async markTradeDone(buyerChatId: number, traderChatId: number, value: number): Promise<defaultResponse> {
+        let response = await fetch(request_url + "wallet/tradeDone", {
+            method: "PUT",
+            body: JSON.stringify({
+                buyerChatId, traderChatId, value,
+            })
+        })
+        return await response.json();
+    }
+
+    static async sendToSale(chatId: number, value: number): Promise<defaultResponse> {
+        let response = await fetch(request_url + "wallet/onsale", {
+            method: "POST",
+            body: JSON.stringify({
+                chatId, value,
+            })
+        })
+        return await response.json();
+    }
+
+    static async getRequisites(chatId: number): Promise<requisitesResponse> {
+        let response = await fetch(request_url + "requisite/getAll?" + new URLSearchParams({
+            chatId: chatId.toString(),
+        }))
+        return await response.json();
+    }
+
+    static async deleteRequisite(chatId: number, requisiteId: number): Promise<defaultResponse> {
+        let response = await fetch(request_url + "requisite/delete?" + new URLSearchParams({
+            chatId: chatId.toString(), requisiteId: requisiteId.toString()
+        }), {
+            method: "DELETE"
+        })
+        return await response.json();
+    }
+
+    static async updateRequisite(chatId: number, requisiteId: number, price: number, requisite: string): Promise<defaultResponse> {
+        let response = await fetch(request_url + "requisite/update", {
+            method: "PUT",
+            body: JSON.stringify({
+                chatId, requisiteId, price, requisite,
+            })
+        })
+        return await response.json();
+    }
+
+    static async createRequisite(typeId: number, chatId: number, price: number, requisite: string): Promise<defaultResponse> {
+        let response = await fetch(request_url + "requisite/create", {
+            method: "POST",
+            body: JSON.stringify({
+                typeId, chatId, price, requisite,
             })
         })
         return await response.json();
