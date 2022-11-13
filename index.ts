@@ -11,11 +11,17 @@ import startBot from "./utils/startBot";
 import {myContext} from "./types/MyContext";
 
 const bot = new Telegraf<myContext>(config.get("Bot.token"));
-const stage = new Scenes.Stage<Scenes.SceneContext>([
+// @ts-ignore
+const stage = new Scenes.Stage([
+// @ts-ignore
     ScenesList.getVerificationScene(), ScenesList.getMainScene(),
+// @ts-ignore
     ScenesList.getScreenShotScene(), ScenesList.getBuyScene(),
+// @ts-ignore
     ScenesList.getSellScene(), ScenesList.getSendToSaleScene(),
+// @ts-ignore
     ScenesList.getRequisitesScene(), ScenesList.getAddRequisiteScene(),
+// @ts-ignore
     ScenesList.getChangeRequisiteScene()
 ])
 
@@ -30,9 +36,20 @@ localSession.DB.then(DB => {
 })
 
 bot.use(localSession.middleware());
+// @ts-ignore
+bot.use(stage.middleware());
 
 bot.start(async (ctx) => {
+    // let response = await API.checkAccount(ctx.message.from.id);
+    let response = true;
 
+    if (response) {
+        // @ts-ignore
+        await ctx.scene.enter("main")
+    } else {
+        // @ts-ignore
+        await ctx.scene.enter("verification");
+    }
 })
 
 // @ts-ignore

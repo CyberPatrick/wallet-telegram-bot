@@ -6,10 +6,9 @@ import downloadScreenshot from "../utils/downloadScreenshot";
 // @ts-ignore
 import config from "config";
 import uploadScreenshot from "../utils/uploadScreenshot";
-import {fromReadableStream} from "telegraf/typings/input";
 import dayjs from "dayjs";
 // @ts-ignore
-import customParseFormat from "days/plugin/customParseFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/ru";
 
 dayjs.extend(customParseFormat)
@@ -310,7 +309,9 @@ export default class ScenesList {
             for (let trade of response.trades) {
                 if (trade.transfer) {
                     let rStream = await uploadScreenshot(trade.buyerChatId, trade.id);
-                    await ctx.replyWithPhoto(fromReadableStream(rStream), {
+                    await ctx.replyWithPhoto({
+                        source: rStream
+                    }, {
                         caption: `ID: ${trade.id}\nКоличество: ${trade.value}\nЦена: ${trade.price}` +
                             `\nДата создания: ${trade.transferdateCreation}`,
                         // @ts-ignore
